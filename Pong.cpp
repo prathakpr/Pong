@@ -1,20 +1,92 @@
-// Pong.cpp : This file contains the 'main' function. Program execution begins and ends there.
-//
-
-#include <iostream>
-
+#include "Bat.h"
+#include <sstream>
+#include <cstdlib>
+#include <SFML/Graphics.hpp>
 int main()
 {
-    std::cout << "Hello World!\n";
+	// Create a video mode object
+	VideoMode vm(1920, 1080);
+	// Create and open a window for the game
+	RenderWindow window(vm, "Pong", Style::Fullscreen);
+	int score = 0;
+	int lives = 3;
+
+	// Create a bat at the bottom center of the screen
+	Bat bat(1920 / 2, 1080 - 20);
+	// We will add a ball in the next chapter
+	// Create a Text object called HUD
+	Text hud;
+	// A cool retro-style font
+	Font font;
+	font.loadFromFile("fonts/DS-DIGI.ttf");
+	// Set the font to our retro-style
+	hud.setFont(font);
+	// Make it nice and big
+	hud.setCharacterSize(75);
+	// Choose a color
+	hud.setFillColor(Color::White);
+	hud.setPosition(20, 20);
+	// Here is our clock for timing everything
+	Clock clock;
+
+	while (window.isOpen())
+	{
+		/*
+		Handle the player input
+		*/
+
+		Event event;
+		while (window.pollEvent(event))
+		{
+			if (event.type == Event::Closed)
+				// Quit the game when the window is closed
+				window.close();
+		}
+		// Handle the player quitting
+		if (Keyboard::isKeyPressed(Keyboard::Escape))
+		{
+			window.close();
+		}
+		// Handle the pressing and releasing of the arrow keys
+		if (Keyboard::isKeyPressed(Keyboard::Left))
+		{
+			bat.moveLeft();
+		}
+		else
+		{
+			bat.stopLeft();
+		}
+		if (Keyboard::isKeyPressed(Keyboard::Right))
+		{
+			bat.moveRight();
+		}
+		else
+		{
+			bat.stopRight();
+		}
+
+		/*
+		Update the bat, the ball and the HUD
+		*/
+
+		// Update the delta time
+		Time dt = clock.restart();
+		bat.update(dt);
+		// Update the HUD text
+		std::stringstream ss;
+		ss << "Score:" << score << " Lives:" << lives;
+		hud.setString(ss.str());
+
+
+		/*
+		Draw the bat, the ball and the HUD
+
+		*/
+		window.clear();
+		window.draw(hud);
+		window.draw(bat.getShape());
+		window.display();
+
+	}
+	return 0;
 }
-
-// Run program: Ctrl + F5 or Debug > Start Without Debugging menu
-// Debug program: F5 or Debug > Start Debugging menu
-
-// Tips for Getting Started: 
-//   1. Use the Solution Explorer window to add/manage files
-//   2. Use the Team Explorer window to connect to source control
-//   3. Use the Output window to see build output and other messages
-//   4. Use the Error List window to view errors
-//   5. Go to Project > Add New Item to create new code files, or Project > Add Existing Item to add existing code files to the project
-//   6. In the future, to open this project again, go to File > Open > Project and select the .sln file
