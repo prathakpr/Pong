@@ -9,4 +9,4 @@ I created this game with the help of the book "Beginning C++ Game Programming." 
 Vanrakshak game is a sasticopy or a remake of Timber game.
 ScreenShot of the game :
 
-<img align="left" alt="Coding" width="1000" src="https://github.com/prathakpr/VanRakshak/blob/master/Screenshot%20(241).png">
+<img align="left" alt="Coding" width="1000" src="https://github.com/prathakpr/Pong/blob/master/Pong%2029-02-2024%2012_24_35.png">
